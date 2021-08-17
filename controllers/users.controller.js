@@ -22,8 +22,12 @@ const usuariosDelete = (req, res) => {
 };
 
 const usuariosPut = (req, res) => {
+
+  const {id} = req.params;
+
   res.json({
     msg: "put en API - controlador",
+    id
   });
 };
 
