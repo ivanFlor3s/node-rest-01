@@ -1,18 +1,26 @@
-const { response } = require("express");
+const { response, request } = require("express");
 
-const usuariosGet = (req, res) => {
+const usuariosGet = (req = request, res=response) => {
+
+  const { query, nombre, apikey } = req.query;
+
   res.json({
     msg: "GET en API - controlador",
+    query,
+    nombre,
+    apikey
   });
 };
 
 const usuariosPost = (req, res) => {
+  //Desestructuracion para trabajar mejor
   const {nombre, edad} = req.body;
   res.json({
     msg: "post en API - controlador",
     nombre,
     edad
   });
+  //EJEMPLO http://localhost:3000/api/usuarios?query=roman&nombre=riquelme&apikey=19318931713
 };
 
 const usuariosDelete = (req, res) => {
