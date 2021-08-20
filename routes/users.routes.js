@@ -5,8 +5,8 @@ const { usuariosGet,
         usuariosPost, 
         usuariosDelete, 
         usuariosPut } = require("../controllers/users.controller");
+const { esRolValido } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
-const Role = require('../model/role')
 
 const router = Router();
 
@@ -17,12 +17,7 @@ router.post("/",[
     check('nombre', "El nombre es obligatorio").not().isEmpty(),
     check('password', "La contrasena es obligatoria y mas de 6 letras").isLength({min: 6}),
     //check('rol', "No es un rol permitido").isIn(['ADMIN_ROLE','USER_ROLE']),
-    check('rol').custom( async (rol = "") => {
-        const existeRol = await Role.findOne({rol});
-        if( !existeRol){
-            throw new Error(`El rol ${rol} no esta registrado en la DB`)
-        }
-    }),
+    check('rol').custom( esRolValido),
     validarCampos
 ]  , usuariosPost);
 
