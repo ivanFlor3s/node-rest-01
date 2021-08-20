@@ -46,13 +46,23 @@ const usuariosDelete = (req, res) => {
   });
 };
 
-const usuariosPut = (req, res) => {
+const usuariosPut = async (req=request, res=response) => {
 
   const {id} = req.params;
 
+  const {password, google, correo, ...resto} = req.body
+
+  //TODO validar contra DB
+  if(password){
+    const salt = bcryptjs.genSaltSync();
+    resto.password = bcryptjs.hashSync(password, salt)
+  }
+
+  const usuarioDB = await Usuario.findByIdAndUpdate(id, resto)
+
   res.json({
     msg: "put en API - controlador",
-    id
+    usuarioDB
   });
 };
 
