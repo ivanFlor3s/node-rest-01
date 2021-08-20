@@ -20,8 +20,7 @@ const usuariosPost = async (req=request, res=request) => {
   const usuario = new Usuario({nombre,correo,password, rol})
 
   //Verificar si el correo existe
-  const existeMail = Usuario.findOne({correo})
-  console.log(existeMail)
+  //const existeMail = Usuario.findOne({correo})
   // if(existeMail){
   //   return res.status(400).json({
   //     msg: 'El correo ya esta registrados'

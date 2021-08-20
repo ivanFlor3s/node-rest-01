@@ -5,7 +5,7 @@ const { usuariosGet,
         usuariosPost, 
         usuariosDelete, 
         usuariosPut } = require("../controllers/users.controller");
-const { esRolValido } = require("../helpers/db-validators");
+const { esRolValido, emailExiste } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
@@ -18,6 +18,7 @@ router.post("/",[
     check('password', "La contrasena es obligatoria y mas de 6 letras").isLength({min: 6}),
     //check('rol', "No es un rol permitido").isIn(['ADMIN_ROLE','USER_ROLE']),
     check('rol').custom( esRolValido),
+    check('correo').custom(emailExiste),
     validarCampos
 ]  , usuariosPost);
 
