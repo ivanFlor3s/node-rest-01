@@ -21,11 +21,12 @@ const usuariosPost = async (req=request, res=request) => {
 
   //Verificar si el correo existe
   const existeMail = Usuario.findOne({correo})
-  if(existeMail){
-    return res.status(400).json({
-      msg: 'El correo ya esta registrado'
-    })
-  }
+  console.log(existeMail)
+  // if(existeMail){
+  //   return res.status(400).json({
+  //     msg: 'El correo ya esta registrados'
+  //   })
+  // }
 
   //Encriptar la pass
   const salt = bcryptjs.genSaltSync();
