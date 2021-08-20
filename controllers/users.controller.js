@@ -60,10 +60,9 @@ const usuariosPut = async (req=request, res=response) => {
 
   const usuarioDB = await Usuario.findByIdAndUpdate(id, resto)
 
-  res.json({
-    msg: "put en API - controlador",
+  res.json(
     usuarioDB
-  });
+  );
 };
 
 module.exports = {
