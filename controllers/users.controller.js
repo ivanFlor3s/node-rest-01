@@ -48,9 +48,15 @@ const usuariosPost = async (req=request, res=request) => {
   //EJEMPLO http://localhost:3000/api/usuarios?query=roman&nombre=riquelme&apikey=19318931713
 };
 
-const usuariosDelete = (req, res) => {
+const usuariosDelete = async (req = request, res = response) => {
+
+  const {id}  = req.params
+  //Delete fisico de usuario
+  //const usuario = await Usuario.findByIdAndDelete(id)
+
+  const usuario = await Usuario.findByIdAndUpdate(id,{estado: false})
   res.json({
-    msg: "delete en API - controlador",
+    usuario
   });
 };
 
@@ -60,7 +66,6 @@ const usuariosPut = async (req=request, res=response) => {
 
   const {_id, password, google, correo, ...resto} = req.body
 
-  //TODO validar contra DB
   if(password){
     const salt = bcryptjs.genSaltSync();
     resto.password = bcryptjs.hashSync(password, salt)
