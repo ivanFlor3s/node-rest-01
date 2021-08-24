@@ -3,13 +3,13 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../model/usuario');
 
 
-const usuariosGet = (req = request, res=response) => {
+const usuariosGet = async (req = request, res=response) => {
 
-  const body = req.query;
+
+  const usuarios = await Usuario.find()
  
   res.json({
-    msg: "GET en API - controlador",
-    body
+    usuarios
   });
 };
 
