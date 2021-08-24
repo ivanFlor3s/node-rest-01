@@ -7,11 +7,22 @@ const usuariosGet = async (req = request, res=response) => {
 
   const {desde = 0, limite = 5 } = req.query
 
-  const usuarios = await Usuario.find()
+  const query = {estado: true}
+
+  const usuariosPromise = Usuario.find(query)
     .skip(Number(desde))
     .limit(Number(limite));
  
-  const total = await Usuario.countDocuments()
+  const totalPromise = Usuario.countDocuments(query)
+
+  // Desestructuracion del arreglo
+  // Promis all, en caso de un error en alguna promesa, fallan ambas
+  const [total, usuarios] = await Promise.all(
+    [
+      totalPromise, 
+      usuariosPromise
+    ]
+  )
   res.json({
     total,
     usuarios
@@ -23,14 +34,6 @@ const usuariosPost = async (req=request, res=request) => {
   //Desestructuracion para trabajar mejor
   const {nombre, correo, password, rol} = req.body;
   const usuario = new Usuario({nombre,correo,password, rol})
-
-  //Verificar si el correo existe
-  //const existeMail = Usuario.findOne({correo})
-  // if(existeMail){
-  //   return res.status(400).json({
-  //     msg: 'El correo ya esta registrados'
-  //   })
-  // }
 
   //Encriptar la pass
   const salt = bcryptjs.genSaltSync();
