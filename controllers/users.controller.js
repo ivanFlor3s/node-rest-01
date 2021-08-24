@@ -5,9 +5,10 @@ const Usuario = require('../model/usuario');
 
 const usuariosGet = async (req = request, res=response) => {
 
-  const {desde, limite = 5 } = req.query
+  const {desde=0, limite = 5 } = req.query
 
   const usuarios = await Usuario.find()
+    .skip(Number(desde))
     .limit(Number(limite));
  
   res.json({
