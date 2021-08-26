@@ -1,46 +1,43 @@
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const { dbConnection } = require("../db/config");
 
 class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT
-    this.usuariosPath = '/api/usuarios'
+    this.port = process.env.PORT;
+    this.usuariosPath = "/api/usuarios";
+    this.authPath = "/api/auth";
 
     //Connect to db
-    this.conectDb()
+    this.conectDb();
 
     //MIDLEWARES
-    this.middlewares()
+    this.middlewares();
 
     //RUTAS
     this.routes();
-
-
   }
 
   //Metodo que configura mis rutas
   routes() {
-
-        this.app.use(this.usuariosPath  ,require('../routes/users.routes'))
-    
+    this.app.use(this.usuariosPath, require("../routes/users.routes"));
+    this.app.use(this.authPath, require('../routes/auth.routes'))
   }
 
-  async conectDb(){
-    await dbConnection()
+  async conectDb() {
+    await dbConnection();
   }
-  
-  middlewares(){
 
-      //CORS
-      this.app.use(cors())
+  middlewares() {
+    //CORS
+    this.app.use(cors());
 
-      // Lectura y parse del body
-      this.app.use(express.json())
+    // Lectura y parse del body
+    this.app.use(express.json());
 
-      //Directorio publico
-      this.app.use(express.static('public'))
+    //Directorio publico
+    this.app.use(express.static("public"));
   }
 
   listen() {
