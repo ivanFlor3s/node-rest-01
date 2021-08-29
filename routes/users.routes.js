@@ -1,14 +1,15 @@
 //Para desustructurar y sacar algo del paquete
 const { Router } = require("express");
 const { check } = require("express-validator");
+
 const { usuariosGet,
         usuariosPost, 
         usuariosDelete, 
         usuariosPut } = require("../controllers/users.controller");
+
 const { esRolValido, emailExiste, usuarioIdExiste } = require("../helpers/db-validators");
-const { validarCampos } = require("../middlewares/validar-campos");
-const { validarJwt } = require("../middlewares/validar-jwt");
-const { esAdminRole, tieneRol } = require("../middlewares/validar-roles");
+
+const {validarCampos, validarJwt, esAdminRole, tieneRol} = require('../middlewares')
 
 const router = Router();
 
