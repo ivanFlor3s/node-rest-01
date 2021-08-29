@@ -53,13 +53,12 @@ const usuariosDelete = async (req = request, res = response) => {
   const {id}  = req.params
   //Delete fisico de usuario
   //const usuario = await Usuario.findByIdAndDelete(id)
-  const uid = req.uid
-  const responsable = await Usuario.findById(uid)
+  const usuarioResponsable = req.usuario
 
   const usuario = await Usuario.findByIdAndUpdate(id,{estado: false})
   res.json({
     usuario,
-    responsable
+    usuarioResponsable
   });
 };
 
