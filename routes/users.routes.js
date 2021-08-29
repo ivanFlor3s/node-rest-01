@@ -8,7 +8,7 @@ const { usuariosGet,
 const { esRolValido, emailExiste, usuarioIdExiste } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJwt } = require("../middlewares/validar-jwt");
-const { esAdminRole } = require("../middlewares/validar-roles");
+const { esAdminRole, tieneRol } = require("../middlewares/validar-roles");
 
 const router = Router();
 
