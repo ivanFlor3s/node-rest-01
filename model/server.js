@@ -6,8 +6,13 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
-    this.usuariosPath = "/api/usuarios";
-    this.authPath = "/api/auth";
+
+    this.paths = {
+      usuario:    '/api/auth',
+      categorias: '/api/categorias',
+      auth:       '/api/usuarios',
+    }
+   
 
     //Connect to db
     this.conectDb();
@@ -21,8 +26,9 @@ class Server {
 
   //Metodo que configura mis rutas
   routes() {
-    this.app.use(this.usuariosPath, require("../routes/users.routes"));
-    this.app.use(this.authPath, require('../routes/auth.routes'))
+    this.app.use(this.paths.usuario, require("../routes/users.routes"));
+    this.app.use(this.paths.auth, require('../routes/auth.routes'))
+    this.app.use(this.paths.categorias, require('../routes/categoria.routes'))
   }
 
   async conectDb() {
