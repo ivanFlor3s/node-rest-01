@@ -2,17 +2,20 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const { validarCampos, validarJwt} = require("../middlewares");
 
-const {crearCategoria} = require('../controllers/categorias.controller')
+const {crearCategoria, obtenerCategorias} = require('../controllers/categorias.controller')
 
 const router = Router();
 
 //Obtener todas las categorias - publico
-router.get('/', (req, resp) => {
-    resp.json('GET Ok')
-})
+router.get('/', obtenerCategorias)
 
 //Obtener categoria por ID - publico
 router.get('/:id', (req, resp) => {
+
+    //TODO Validar con midleware en todos lados donde tenga id 
+    //TODO  Desarrollar Existe categoria
+    check('id').custom( existeCategoria )
+
     resp.json('GET Ok')
 })
 
