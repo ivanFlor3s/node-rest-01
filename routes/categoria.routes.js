@@ -17,8 +17,8 @@ router.get("/", obtenerCategorias);
 
 //Obtener categoria por ID - publico
 router.get("/:id", [
-  check("id").custom(existeCategoria),
   check('id','No es un Id valido').isMongoId(),
+  check("id").custom(existeCategoria),
   validarCampos
 ], obtenerCategoria);
 
@@ -36,6 +36,7 @@ router.post(
 //Actualizar una categoria - privado
 router.put("/:id",[
   validarJwt,
+  check('nombre', 'El nombre es obligatorio').notEmpty(),
   check('id','No es un Id valido').isMongoId(),
   check("id").custom(existeCategoria),
   validarCampos

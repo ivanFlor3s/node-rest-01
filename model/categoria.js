@@ -17,4 +17,10 @@ const CategoriaSchema = Schema({
   },
 });
 
+CategoriaSchema.methods.toJSON = function () {
+  //Saco la version, la password y todo lo demas lo dejo en usuario
+  const { __v, estado  ,...data } = this.toObject();
+  return data;
+};
+
 module.exports = model("Categoria", CategoriaSchema);
