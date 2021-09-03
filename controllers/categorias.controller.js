@@ -27,7 +27,6 @@ const crearCategoria = async(req = request, resp = response) =>{
     resp.status(201).json(categoria)
 }
 
-//TODO OBTENER CATEGORIAS - paginado - total - populate
 const obtenerCategorias = async (req = request, resp = response) => {
 
     const {desde = 0, limite = 5 } = req.query
@@ -46,11 +45,26 @@ const obtenerCategorias = async (req = request, resp = response) => {
 
 //TODO  OBTENER CATEGORIA - populate
 
+const obtenerCategoria = async (req = request, res = response) => {
+    const id = req.params.id
+    
+    const categoria = await Categoria.findById(id)
+        .populate('usuario')
+
+   
+
+    return res.json({
+        categoria
+    })
+
+}
+
 //TODO  ACTUALIZAR CATEGORIA 
 
 //TODO BORRAR CATEGORIA - cambiar estado
 
 module.exports = {
     crearCategoria,
-    obtenerCategorias
+    obtenerCategoria,
+    obtenerCategorias,
 }
