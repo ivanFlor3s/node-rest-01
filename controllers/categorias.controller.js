@@ -1,4 +1,4 @@
-const { request, response } = require("express");
+const { request, response, json } = require("express");
 const Categoria = require('../model/categoria')
 
 const crearCategoria = async(req = request, resp = response) =>{
@@ -43,7 +43,6 @@ const obtenerCategorias = async (req = request, resp = response) => {
 
 }
 
-//TODO  OBTENER CATEGORIA - populate
 
 const obtenerCategoria = async (req = request, res = response) => {
     const id = req.params.id
@@ -59,7 +58,6 @@ const obtenerCategoria = async (req = request, res = response) => {
 
 }
 
-//TODO  ACTUALIZAR CATEGORIA 
 const updateCategoria = async( req= request, res = response) => {
 
     const {id} = req.params
@@ -74,9 +72,21 @@ const updateCategoria = async( req= request, res = response) => {
 
 //TODO BORRAR CATEGORIA - cambiar estado
 
+const borrarCategoria = async( req= request, res = response) =>{
+    
+    const {id} = req.params
+
+    const categoria = await Categoria.findByIdAndUpdate(id,{estado: false})
+
+    return res.json({
+        categoria
+    })
+}
+
 module.exports = {
     crearCategoria,
     obtenerCategoria,
     obtenerCategorias,
-    updateCategoria
+    updateCategoria,
+    borrarCategoria
 }
