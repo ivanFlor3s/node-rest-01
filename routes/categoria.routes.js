@@ -6,6 +6,7 @@ const {
   crearCategoria,
   obtenerCategorias,
   obtenerCategoria,
+  updateCategoria,
 } = require("../controllers/categorias.controller");
 
 const router = Router();
@@ -32,9 +33,12 @@ router.post(
 );
 
 //Actualizar una categoria - privado
-router.put("/:id", (req, resp) => {
-  resp.json("PUT - id");
-});
+router.put("/:id",[
+  validarJwt,
+  check('id','No es un Id valido').isMongoId(),
+  check("id").custom(existeCategoria),
+  validarCampos
+] , updateCategoria);
 
 //Borrar una categoria - Admin
 router.delete("/:id", (req, resp) => {

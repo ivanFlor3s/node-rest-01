@@ -60,6 +60,17 @@ const obtenerCategoria = async (req = request, res = response) => {
 }
 
 //TODO  ACTUALIZAR CATEGORIA 
+const updateCategoria = async( req= request, res = response) => {
+
+    const {id} = req.params
+    const nombre = req.body.nombre.toUpperCase()
+    const categoria = await Categoria.findByIdAndUpdate(id, {nombre})
+
+    res.json({
+        categoria
+    })
+
+}
 
 //TODO BORRAR CATEGORIA - cambiar estado
 
@@ -67,4 +78,5 @@ module.exports = {
     crearCategoria,
     obtenerCategoria,
     obtenerCategorias,
+    updateCategoria
 }
