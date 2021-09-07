@@ -27,7 +27,6 @@ router.post(
     validarJwt,
     validarNombreCategoria,
     check("nombre", "El nombre es obligatorio").notEmpty(),
-    check("usuario", "El usuario es obligatorio").notEmpty(),
     check("categoria", "La categoria es obligatoria").notEmpty(),
     validarCampos,
   ],

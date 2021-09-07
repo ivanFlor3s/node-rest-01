@@ -17,7 +17,7 @@ const ProductoSchema = Schema({
   },
   precio: {
     type: Number,
-    default: 0,
+    default: 100,
   },
   categoria: {
     type: Schema.Types.ObjectId,
