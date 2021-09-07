@@ -9,6 +9,7 @@ class Server {
 
     this.paths = {
       auth:       '/api/auth',
+      buscar:     '/api/buscar',
       categorias: '/api/categorias',
       usuario:    '/api/usuarios',
       productos:  '/api/productos'
@@ -31,6 +32,7 @@ class Server {
     this.app.use(this.paths.auth, require('../routes/auth.routes'))
     this.app.use(this.paths.categorias, require('../routes/categoria.routes'))
     this.app.use(this.paths.productos, require('../routes/producto.routes'))
+    this.app.use(this.paths.buscar, require('../routes/buscar.routes'))
   }
 
   async conectDb() {
