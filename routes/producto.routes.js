@@ -6,6 +6,7 @@ const {
   obtenerAllProductos,
   obtenerProducto,
   borrarProducto,
+  actualizarProducto,
 } = require("../controllers/productos.controller");
 
 const { productoIdExiste } = require("../helpers/db-validators");
@@ -56,5 +57,12 @@ router.delete(
   ],
   borrarProducto
 );
+
+router.put('/:id', [
+  validarJwt,
+  check('id','No es un Mongo Id').isMongoId(),
+  check('id').custom(productoIdExiste),
+  validarCampos
+], actualizarProducto)
 
 module.exports = router;

@@ -2,7 +2,7 @@ const { request, response, json } = require("express");
 const { Producto, Categoria } = require("../model");
 
 const crearProducto = async (req = request, resp = response) => {
-  const { nombre, estado, precio, descripcion, disponible } = req.body;
+  const { nombre, precio, descripcion, disponible } = req.body;
   const { usuario, categoria } = req;
 
   const productoDB = await Producto.findOne({ nombre });
@@ -13,9 +13,9 @@ const crearProducto = async (req = request, resp = response) => {
   }
 
   const producto = new Producto({
-    nombre,
+    nombre: nombre.toUpperCase(),
     usuario: usuario._id,
-    estado,
+    estado: true,
     precio,
     categoria: categoria._id,
     descripcion,
@@ -23,14 +23,25 @@ const crearProducto = async (req = request, resp = response) => {
   });
   await producto.save();
 
-  resp.json({
-   
-    producto,
-  });
+  resp.status(201).json(producto
+  );
 };
 
 const actualizarProducto = async (req = request, resp = response) => {
+  
+  const {id} = req.params
+  const {estado, usuario, ...data} = req.body
 
+  if (data.nombre){
+    //Solo actualizo cuando tengo un nombre en el body
+    data.nombre = data.nombre.toUpperCase()
+  }
+
+  data.usuario = req.usuario._id
+
+  const producto = await Producto.findByIdAndUpdate(id, data,{new: true})
+
+  resp.json(producto)
 };
 
 const borrarProducto = async (req = request, resp = response) => {
@@ -78,5 +89,6 @@ module.exports = {
   crearProducto,
   obtenerAllProductos,
   borrarProducto,
-  obtenerProducto
+  obtenerProducto,
+  actualizarProducto
 };
