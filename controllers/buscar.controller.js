@@ -1,7 +1,7 @@
 
 const { response, request } = require("express");
 const { isValidObjectId } = require("mongoose");
-const { Usuario } = require("../model");
+const { Usuario, Categoria, Producto } = require("../model");
 
 const coleccionPermitidas = [
     'categoria',
@@ -33,6 +33,53 @@ const buscarUsuario = async (termino= '', res = response) =>{
     })
 }
 
+
+const buscarProductos = async (termino= '', res = response) =>{
+
+    const esMongoId = isValidObjectId(termino)
+
+    if(esMongoId){
+        const producto = await Producto.findById(termino).populate('categoria', 'nombre')
+        res.json({
+            results: producto ? [producto] : []
+        })
+    }
+    
+    const regex = new RegExp(termino, 'i')
+
+    const productos = await Producto.find({
+        $or: [{ nombre: regex }, { descripcion: regex }, {precio: regex}],
+        $and:[{ estado: true }]
+    } ) .populate('categoria', 'nombre')
+
+    res.json({
+        results: productos
+    })
+}
+
+const buscarCategoria = async (termino= '', res = response) =>{
+
+    const esMongoId = isValidObjectId(termino)
+
+    if(esMongoId){
+        const categoria = await Categoria.findById(termino)
+        res.json({
+            results: categoria ? [categoria] : []
+        })
+    }
+    
+    const regex = new RegExp(termino, 'i')
+
+    const categorias = await Categoria.find({
+        $or: [{ nombre: regex }],
+        $and:[{ estado: true }]
+    } )
+
+    res.json({
+        results: categorias
+    })
+}
+
 const buscar = (req = request, res = response) => {
 
     const {coleccion, termino} = req.params
@@ -45,7 +92,7 @@ const buscar = (req = request, res = response) => {
 
     switch (coleccion){
         case 'categoria':
-
+            buscarCategoria(termino,res)
         break;
 
         case 'usuarios':
@@ -53,7 +100,7 @@ const buscar = (req = request, res = response) => {
         break;
 
         case 'productos':
-
+            buscarProductos(termino, res)
         break;
 
         default: 
