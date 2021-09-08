@@ -12,7 +12,8 @@ class Server {
       buscar:     '/api/buscar',
       categorias: '/api/categorias',
       usuario:    '/api/usuarios',
-      productos:  '/api/productos'
+      productos:  '/api/productos',
+      uploads:    '/api/uploads'
     }
    
 
@@ -28,11 +29,12 @@ class Server {
 
   //Metodo que configura mis rutas
   routes() {
-    this.app.use(this.paths.usuario, require("../routes/users.routes"));
     this.app.use(this.paths.auth, require('../routes/auth.routes'))
-    this.app.use(this.paths.categorias, require('../routes/categoria.routes'))
-    this.app.use(this.paths.productos, require('../routes/producto.routes'))
+    this.app.use(this.paths.usuario, require("../routes/users.routes"));
     this.app.use(this.paths.buscar, require('../routes/buscar.routes'))
+    this.app.use(this.paths.uploads, require('../routes/uploads.routes'))
+    this.app.use(this.paths.productos, require('../routes/producto.routes'))
+    this.app.use(this.paths.categorias, require('../routes/categoria.routes'))
   }
 
   async conectDb() {
